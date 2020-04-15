@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', () =>  {
 				keys[i].disabled = false;
 			}
 
-			for(heart of hearts) {
-        heart.firstElementChild.src = 'images/liveHeart.png';
-        heart.firstElementChild.classList.remove('loseHeart');
+			for(let i = 0; i < hearts.length; i += 1) {
+        hearts[i].firstElementChild.src = 'images/liveHeart.png';
+        hearts[i].firstElementChild.classList.remove('loseHeart');
     	}
 			
 			missed = 0; 
