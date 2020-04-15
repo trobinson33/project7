@@ -1,24 +1,47 @@
 document.addEventListener('DOMContentLoaded', () =>  {
 
-	const btnReset 					= document.querySelector('.btn__reset');
-	const overlay 					= document.getElementById('overlay');
-	const keyboard 					= document.getElementById('qwerty');
-	const phrase 						= document.getElementById('phrase');
-	const scoreboard 				= document.querySelector('#scoreboard ol');
-	const title 						= document.querySelector('.title');
-	let missed 							= 0;
+	const btnReset 			= document.querySelector('.btn__reset');
+	const overlay 			= document.getElementById('overlay');
+	const keyboard 			= document.getElementById('qwerty');
+	const ul 						= document.querySelector("#phrase ul");
+	const scoreboard 		= document.querySelector('#scoreboard ol');
+	const title 				= document.querySelector('.title');
+	const keys      		= document.querySelectorAll('button');
+  const hearts 				= document.getElementsByClassName('tries');
+	let missed 					= 0;
 
 	const phrases = [
-		"covid is the worst",
-		"is this working",
-		"the wheel of success",
-		"right off the bat",
-		"long in the tooth"
+		"ring any bells",
+		"quality time",
+		"beating a dead horse",
+		"a chip on your shoulder",
+		"keep your eyes peeled"
 	]
 
 	btnReset.addEventListener('click', (event) => {
 		overlay.style.display = "none";
 
+		if(event.target.textContent == 'Reset Game' ){
+			addPhraseToDisplay(getRandomPhraseArray(phrases));
+			const show = document.querySelectorAll('.show');
+			
+			for(let i = 0; i < show.length; i += 1) {
+				ul.removeChild(show[i]);
+			}
+
+			for(let i = 0; i < keys.length; i += 1) {
+				keys[i].classList.remove("chosen");
+				keys[i].disabled = false;
+			}
+
+			for(heart of hearts) {
+        heart.firstElementChild.src = 'images/liveHeart.png';
+        heart.firstElementChild.classList.remove('loseHeart');
+    	}
+			
+			missed = 0; 
+			
+		}
 
 	});
 
@@ -29,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () =>  {
 
 	function addPhraseToDisplay(arr) {
 		for(let i = 0; i < arr.length; i += 1) {
-			const ul 			= document.querySelector("#phrase ul");
+			
 			const li 			= document.createElement('li');
 			li.innerHTML 	= arr[i];
 
@@ -42,8 +65,7 @@ document.addEventListener('DOMContentLoaded', () =>  {
 		}
 	}
 
-	const phraseArray = getRandomPhraseArray(phrases);
-	addPhraseToDisplay(phraseArray); 
+	addPhraseToDisplay(getRandomPhraseArray(phrases)); 
 
 	function checkLetter(pressedButton){
 		letterFound = false;
@@ -63,7 +85,8 @@ document.addEventListener('DOMContentLoaded', () =>  {
       event.target.disabled = true;
 
       if(!letterFound) {
-      	scoreboard.removeChild(scoreboard.lastElementChild);
+        let lostLive = hearts[missed].firstElementChild;
+        lostLive.setAttribute('src', 'images/lostHeart.png');
       	missed++;
       }
 
@@ -80,13 +103,14 @@ document.addEventListener('DOMContentLoaded', () =>  {
 			overlay.classList.add('win');
 			overlay.style.display = "flex";
 			title.innerHTML = 'You Win!';
-			
+			btnReset.textContent = 'Reset Game';
 		}
 
 		if(missed >= 5) {
 			overlay.classList.add('lose');
 			overlay.style.display = "flex";
 			title.innerHTML = 'You Lose!';
+			btnReset.textContent = 'Reset Game';
 			
 		}
 	}
